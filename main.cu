@@ -143,6 +143,12 @@ int main(int argc, char** argv) {
     std::chrono::duration<double> diff = end_time - start_time;
     double seconds = diff.count();
 
+    cudaError_t error_code = cudaGetLastError();
+    if (error_code != cudaSuccess) {
+        std::cerr << "cudaGetLastError failed: " << cudaGetErrorString(error_code) << std::endl;
+        exit(1);
+    }
+
     // Finalize
     std::cout << "Simulation Time = " << seconds << " seconds for " << num_parts << " particles.\n";
     fsave.close();
